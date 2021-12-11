@@ -4,15 +4,33 @@
       <section>
         <div class="container">
           <div id="app">
-            <h1>{{ title }}</h1>
-
             <div class="message">
               <Message v-if="message" :message="message" />
             </div>
 
             <NewNote :note="note" @addNote="addNote" />
+            <div class="note-header">
+              <h1>{{ title }}</h1>
 
-            <Notes :notes="notes" @OnRemoveNote="removeNote" />
+              <div class="icons">
+                <svg
+                  :class="{ active: grid }"
+                  @click="grid = true"
+                  class="icon icon--grid"
+                >
+                  <use xlink:href="./assets/sprite.svg#grid"></use>
+                </svg>
+                <svg
+                  :class="{ active: !grid }"
+                  @click="grid = false"
+                  class="icon icon--column"
+                >
+                  <use xlink:href="./assets/sprite.svg#column"></use>
+                </svg>
+              </div>
+            </div>
+
+            <Notes :notes="notes" :grid="grid" @OnRemoveNote="removeNote" />
           </div>
         </div>
       </section>
@@ -33,8 +51,9 @@ export default {
     Notes,
   },
   data: () => ({
-    title: "notes App",
+    title: "Notes App",
     message: null,
+    grid: true,
     note: {
       title: "",
       descr: "",
