@@ -12,7 +12,7 @@
 
             <NewNote :note="note" @addNote="addNote" />
 
-            <Notes :notes="notes" />
+            <Notes :notes="notes" @OnRemoveNote="removeNote" />
           </div>
         </div>
       </section>
@@ -75,6 +75,9 @@ export default {
       this.message = null;
       this.note.title = "";
       this.note.descr = "";
+    },
+    removeNote(index) {
+      this.notes.splice(index, 1);
     },
   },
 };
