@@ -1,8 +1,8 @@
 <template>
   <div class="new-note">
-    <label for="title">title</label>
+    <label for="title">Title</label>
     <input type="text" id="title" v-model="note.title" />
-    <label for="description">description</label>
+    <label for="description">Description</label>
     <textarea id="description" v-model="note.descr"></textarea>
     <button class="btn btnPrimary" @click="addNote">New note</button>
   </div>

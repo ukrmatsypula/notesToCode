@@ -12,6 +12,12 @@
             <div class="note-header">
               <h1>{{ title }}</h1>
 
+              <Search
+                :value="search"
+                placeholder="Find your note"
+                @search="onSearch"
+              />
+
               <div class="icons">
                 <svg
                   :class="{ active: grid }"
@@ -30,7 +36,11 @@
               </div>
             </div>
 
-            <Notes :notes="notes" :grid="grid" @OnRemoveNote="removeNote" />
+            <Notes
+              :notes="notesFilter"
+              :grid="grid"
+              @OnRemoveNote="removeNote"
+            />
           </div>
         </div>
       </section>
@@ -42,6 +52,7 @@
 import Message from "@/components/Message";
 import NewNote from "@/components/NewNote";
 import Notes from "@/components/Notes";
+import Search from "@/components/Search";
 
 export default {
   name: "App",
@@ -49,9 +60,11 @@ export default {
     Message,
     NewNote,
     Notes,
+    Search,
   },
   data: () => ({
     title: "Notes App",
+    search: "",
     message: null,
     grid: true,
     note: {
@@ -78,6 +91,23 @@ export default {
       },
     ],
   }),
+  computed: {
+    notesFilter() {
+      if (!this.search) {
+        return this.notes;
+      }
+
+      return this.notes.filter((note) => {
+        if (
+          note.title.toLowerCase().indexOf(this.search.trim().toLowerCase()) !==
+          -1
+        ) {
+          return note;
+        }
+        return this.arrayNotes;
+      });
+    },
+  },
   methods: {
     addNote() {
       const { title, descr } = this.note;
@@ -97,6 +127,9 @@ export default {
     },
     removeNote(index) {
       this.notes.splice(index, 1);
+    },
+    onSearch(searchPayload) {
+      this.search = searchPayload;
     },
   },
 };
